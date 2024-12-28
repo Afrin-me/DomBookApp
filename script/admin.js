@@ -9,8 +9,8 @@ if(admindata!=""){
 }
 
 let form= document.getElementById('form')
-form.addEventListener('submit',function(){
-
+form.addEventListener('submit',function(event){
+ event.preventDefault()
     let title = form.title.value
 
     let author = form.author.value
@@ -47,10 +47,12 @@ function getdata(bookObj) {
       alert("something went wrong in getting data");
     });
 }
-
+displaydatain=[]
 window.onload = ()=>{
-    let data = getdata()
-    displaydata(data);
+     let data = getdata();
+     displaydatain = [...data]
+    displaydata(displaydatain);
+
 }
 
 
@@ -59,29 +61,67 @@ window.onload = ()=>{
 
 
 function displaydata(arr){
-    // console.log('arr',arr)
 
     arr.map((el)=>{
-        // console.log(el)
 
         let cont = document.getElementById('cont')
+        cont.innerHTML = "";
 
         let card = document.createElement('div')
 
         let title= document.createElement('h4')
         title.innerText = `Title: ${el.tilte}`
 
-        let author = document.createElement("h4");
-        author.innerText = `Title: ${el.author}`;
+        let author = document.createElement("h4")
+        author.innerText = `Title: ${el.author}`
 
-        let select = document.createElement("h4");
-        select.innerText = `Title: ${el.select}`;
+        let select = document.createElement("h4")
+        select.innerText = `Title: ${el.select}`
 
-        card.append(title, author, author);
+        let verifyBook = document.createElement('button')
+        verifyBook.addEventListener('click',function(){
+            verifyBookfun()
+        })
+
+        let deleteBook = document.createElement("button");
+        deleteBook.addEventListener("click", function () {
+          deleteBookfun();
+        });
+
+        card.append(title, author, author, verifyBook, deleteBook);
 
         cont.append(card)
     })
 
 }
+
+ function verifyBookfun(){
+     fetch(`${baseUrl}/books`, {
+       method: "PATCH",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(bookObj),
+     })
+       .then(() => {
+        prompt("Are you sure to Verify..?");
+       })
+       .catch((err) => {
+         alert("");
+       });
+ }
+
+ function deleteBookfun() {
+    fetch(`${baseUrl}/books`, {
+      method: "DELETE",
+      
+    })
+      .then(() => {
+        alert("Book Added Successfully");
+      })
+      .catch((err) => {
+        alert("No Book Added");
+      });
+ }
 
  

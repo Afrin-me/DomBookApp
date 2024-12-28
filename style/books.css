@@ -1,0 +1,12 @@
+
+
+#button{
+    padding: 40px 25px;
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    gap: 20px;
+    background-color: rgb(194, 140, 245);
+    border-radius: 10px;
+    padding:30px 40px ;
+}

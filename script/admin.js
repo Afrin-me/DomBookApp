@@ -107,7 +107,7 @@ function displaydata(arr){
         prompt("Are you sure to Verify..?");
        })
        .catch((err) => {
-         alert("");
+         alert("error occur");
        });
  }
 
